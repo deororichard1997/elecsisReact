@@ -1,5 +1,6 @@
 import React from 'react'
 import axios from 'axios'
+import { browserHistory } from 'react-router';
 import { Link } from 'react-router-dom'
 import {
   CButton,
@@ -17,93 +18,46 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
-const server = 'http://test.elecsis.co';
-
+const server = 'https://cors-anywhere.herokuapp.com/http://test.elecsis.co';
+//const history = useHistory();
 class Login extends React.Component{
 
   
-
-  /*state = {
-    user: '',
-    pass: '',
-    showalert: false
-  };
-
-  handleChange = event =>{
-    this.setState({user: event.target.value});
-    this.setState({pass: event.target.value});
-  }
-
-  handleSubmit = event =>{
-
-    event.preventDefault();
-  
-    const usuario = {
-      user: this.setstate.user,
-      pass: this.setstate.pass
-    };
-
-    axios.post('http://test.elecsis.co', {usuario})
-    .then(res => {
-        console.log(res);
-        console.log(res.data);
-    })
-  }*/
-  /*const post = (data) =>{
-
-    axios.post('/user', {
-      user: 'Fred',
-      pass: 'Flintstone'
-      })
-    .then(function (response) {
-        console.log(response);
-    })
-      .catch(function (error) {
-       console.log(error);
-    });
-
-  }*/
   state = {
-    user: '',
-    pass: ''
+    username: '',
+    password: ''
   };
 
   changeUsername = (e) => {
     this.setState({
-      user: e.target.value
+      username: e.target.value
     });
 
   }
 
   changePassword= (e) => {
     this.setState({
-      pass: e.target.value
+      password: e.target.value
     });
   }
 
 
   login= () =>{
-    console.log(this.state.user);
-    console.log(this.state.pass);
-    const user = {
-      user: this.state.user,
-      pass: this.state.pass
+    console.log(this.state.username);
+    console.log(this.state.password);
+    const form = {
+      user: this.state.username,
+      pass: this.state.password
     };
 
-    /*post(user).then(response=>{
-      console.log(response);
-      if (!response) {
-        this.setState({showalert: true});
-      }else {
-        
-      }
-    })*/
-    axios.post(server, user, {
-      user: 'user',
-      pass: 'pass'
-      })
-    .then(function (response) {
-        console.log(response);
+    let vm = this;
+
+    axios.post(server, form)
+      .then(function (response) {
+        console.log(response.data);
+        if (response.data) {
+          vm.props.history.push("/Dashboard")
+        }
     })
       .catch(function (error) {
        console.log(error);
@@ -127,7 +81,7 @@ class Login extends React.Component{
                             <CIcon name="cil-user" />
                           </CInputGroupText>
                         </CInputGroupPrepend>
-                        <CInput type="text" value={this.state.user} placeholder="Username" onChange={this.changeUsername} autoComplete="username" />
+                        <CInput type="text" value={this.state.username} placeholder="Username" onChange={this.changeUsername} autoComplete="username" />
                       </CInputGroup>
                       <CInputGroup className="mb-4">
                         <CInputGroupPrepend>
@@ -135,7 +89,7 @@ class Login extends React.Component{
                             <CIcon name="cil-lock-locked" />
                           </CInputGroupText>
                         </CInputGroupPrepend>
-                        <CInput type="password" value={this.state.pass} placeholder="Password" onChange={this.changePassword} autoComplete="current-password" />
+                        <CInput type="password" value={this.state.password} placeholder="Password" onChange={this.changePassword} autoComplete="current-password" />
                       </CInputGroup>
                       <CRow>
                         <CCol xs="6">
