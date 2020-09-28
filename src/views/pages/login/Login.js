@@ -1,6 +1,6 @@
 import React from 'react'
 import axios from 'axios'
-import { browserHistory } from 'react-router';
+//import { browserHistory } from 'react-router';
 import { Link } from 'react-router-dom'
 import {
   CButton,
@@ -58,9 +58,14 @@ class Login extends React.Component{
         if (response.data) {
           vm.props.history.push("/Dashboard")
         }
+        if (response.data == false) {
+          alert("Usuario o contraeña incorrecta. Por favor intente nuevamente.");
+        }
+        
     })
       .catch(function (error) {
        console.log(error);
+       
     });
     }
   render(){
